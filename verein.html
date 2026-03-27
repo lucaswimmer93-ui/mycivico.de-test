@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civico – Demo Vereins-Dashboard</title>
+<meta name="description" content="Demo-Ansicht des Civico Vereins-Dashboards – NABU Einhausen">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark:#1A1208; --dark2:#2C2416; --dark3:#4A3C28;
+  --gold:#C8A96E; --gold2:#E8C88E;
+  --cream:#F4F0E8; --cream2:#FAF7F2;
+  --brown:#8B7355; --green:#3A7D44; --red:#E85C5C;
+  --border:#E0D8C8; --text:#2C2416;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream2);color:var(--text);overflow-x:hidden;}
+
+/* ── PAGES ── */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ══════════════════════════════════
+   LANDING
+══════════════════════════════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,18,8,0.96);backdrop-filter:blur(12px);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;border-bottom:1px solid rgba(200,169,110,0.2);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;color:var(--cream);letter-spacing:3px;}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{color:var(--brown);text-decoration:none;font-size:14px;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{background:var(--gold);color:var(--dark);padding:9px 20px;border-radius:24px;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;border:none;font-family:inherit;}
+.nav-cta:hover{background:var(--gold2);}
+
+.hero{min-height:100vh;background:linear-gradient(160deg,var(--dark) 0%,var(--dark2) 60%,#3D3020 100%);display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:100px 7% 80px;gap:60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(58,125,68,0.1) 0%,transparent 60%);}
+.hero-left{max-width:560px;position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(58,125,68,0.15);border:1px solid rgba(58,125,68,0.3);color:#7DC487;padding:6px 16px;border-radius:24px;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,80px);color:var(--cream);line-height:1.05;margin-bottom:20px;}
+.hero h1 em{color:var(--gold);font-style:italic;}
+.hero p{font-size:17px;color:var(--brown);max-width:480px;line-height:1.7;margin-bottom:40px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{background:var(--gold);color:var(--dark);padding:15px 32px;border-radius:32px;font-size:15px;font-weight:500;text-decoration:none;border:none;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px);}
+.btn-ghost{border:1px solid rgba(200,169,110,0.4);color:var(--gold);padding:15px 32px;border-radius:32px;font-size:15px;text-decoration:none;background:none;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-ghost:hover{border-color:var(--gold);background:rgba(200,169,110,0.1);}
+.phone-frame{width:220px;background:var(--dark);border-radius:34px;border:2px solid rgba(200,169,110,0.3);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.6);flex-shrink:0;animation:float 6s ease-in-out infinite;position:relative;z-index:1;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.phone-notch{height:26px;background:var(--dark2);display:flex;align-items:center;justify-content:center;}
+.phone-notch::after{content:'';width:56px;height:6px;background:var(--dark3);border-radius:3px;}
+.phone-screen{padding:10px;}
+.app-hdr{background:linear-gradient(135deg,var(--dark2),var(--dark3));border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+.app-logo{font-family:'Playfair Display',serif;color:var(--cream);font-size:13px;letter-spacing:2px;margin-bottom:6px;}
+.app-tabs{display:flex;gap:4px;}
+.app-tab{flex:1;background:rgba(255,255,255,0.08);border-radius:5px;padding:4px;text-align:center;font-size:8px;color:var(--brown);}
+.app-tab.on{background:rgba(200,169,110,0.2);color:var(--gold);}
+.app-card{background:rgba(250,247,242,.95);border-radius:9px;padding:8px;margin-bottom:5px;}
+.app-card-title{font-size:10px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.app-card-sub{font-size:8px;color:var(--brown);}
+.app-chip{display:inline-block;background:rgba(200,169,110,0.25);color:var(--dark2);font-size:7px;padding:2px 5px;border-radius:4px;margin-top:4px;}
+
+.stats-bar{background:var(--dark2);padding:28px 5%;display:flex;justify-content:center;gap:60px;flex-wrap:wrap;border-bottom:1px solid rgba(200,169,110,0.15);}
+.stat{text-align:center;}
+.stat-num{font-family:'Playfair Display',serif;font-size:34px;color:var(--gold);}
+.stat-label{font-size:11px;color:var(--brown);margin-top:3px;letter-spacing:1px;text-transform:uppercase;}
+
+.section{padding:90px 7%;}
+.section-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,50px);color:var(--text);line-height:1.15;margin-bottom:18px;}
+.section-title em{color:var(--gold);font-style:italic;}
+.section-sub{font-size:16px;color:var(--brown);line-height:1.7;max-width:540px;}
+
+/* For-who */
+.for-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:50px;}
+.for-card{background:var(--dark2);padding:36px 28px;transition:background .3s;cursor:pointer;}
+.for-card:hover{background:var(--dark3);}
+.for-card:first-child{border-radius:22px 0 0 22px;}
+.for-card:last-child{border-radius:0 22px 22px 0;}
+.for-icon{font-size:38px;margin-bottom:18px;}
+.for-title{font-family:'Playfair Display',serif;font-size:21px;color:var(--cream);margin-bottom:10px;}
+.for-desc{font-size:14px;color:var(--brown);line-height:1.7;margin-bottom:20px;}
+.for-link{color:var(--gold);font-size:13px;text-decoration:none;cursor:pointer;}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:50px;}
+.step{position:relative;}
+.step-num{font-family:'Playfair Display',serif;font-size:68px;color:rgba(200,169,110,0.1);position:absolute;top:-16px;left:-8px;line-height:1;}
+.step-content{position:relative;padding-top:18px;}
+.step-title{font-family:'Playfair Display',serif;font-size:19px;color:var(--text);margin-bottom:8px;}
+.step-desc{font-size:14px;color:var(--brown);line-height:1.7;}
+
+/* Pain/Solution */
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px;}
+.pain-side-title{font-size:12px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;}
+.pain-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;}
+.pain-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px;}
+.pain-dot.bad{background:rgba(232,92,92,0.2);color:#E85C5C;}
+.pain-dot.good{background:rgba(58,125,68,0.2);color:#6BAF7A;}
+.pain-text{font-size:15px;color:#C4B89A;line-height:1.5;}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px;}
+.price-card{background:var(--cream2);border:1px solid var(--border);border-radius:18px;padding:32px 24px;position:relative;transition:all .3s;}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(44,36,22,.1);}
+.price-card.featured{background:var(--dark2);border-color:var(--gold);}
+.price-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--dark);font-size:11px;padding:3px 14px;border-radius:10px;white-space:nowrap;}
+.price-icon{font-size:30px;margin-bottom:14px;}
+.price-name{font-family:'Playfair Display',serif;font-size:21px;color:var(--text);margin-bottom:8px;}
+.price-card.featured .price-name{color:var(--cream);}
+.price-desc{font-size:13px;color:var(--brown);margin-bottom:20px;line-height:1.6;}
+.price-features{list-style:none;margin-bottom:28px;}
+.price-features li{font-size:13px;color:var(--brown);padding:6px 0;border-bottom:1px solid rgba(0,0,0,.05);display:flex;gap:8px;}
+.price-card.featured .price-features li{color:#C4B89A;border-color:rgba(255,255,255,.07);}
+.price-features li::before{content:'✓';color:var(--green);font-weight:bold;flex-shrink:0;}
+.price-cta{display:block;text-align:center;padding:12px;border-radius:12px;font-size:14px;text-decoration:none;border:1px solid var(--border);color:var(--text);cursor:pointer;background:none;width:100%;font-family:inherit;transition:all .2s;}
+.price-cta:hover{background:var(--dark);color:var(--cream);border-color:var(--dark);}
+.price-card.featured .price-cta{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+
+/* FAQ */
+.faq-list{margin-top:50px;max-width:700px;}
+.faq-item{border-bottom:1px solid var(--border);padding:22px 0;cursor:pointer;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:500;}
+.faq-arrow{color:var(--gold);font-size:20px;transition:transform .3s;flex-shrink:0;}
+.faq-item.open .faq-arrow{transform:rotate(45deg);}
+.faq-a{font-size:14px;color:var(--brown);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .4s,padding .3s;}
+.faq-item.open .faq-a{max-height:200px;padding-top:14px;}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--dark),var(--dark2));padding:90px 7%;text-align:center;}
+.cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,60px);color:var(--cream);margin-bottom:16px;}
+.cta-section h2 em{color:var(--gold);font-style:italic;}
+.cta-section p{color:var(--brown);font-size:16px;margin-bottom:44px;}
+.cta-grid{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+.cta-card{background:rgba(255,255,255,.05);border:1px solid rgba(200,169,110,.2);border-radius:18px;padding:28px 24px;max-width:240px;text-align:left;cursor:pointer;transition:all .3s;}
+.cta-card:hover{background:rgba(200,169,110,.1);border-color:var(--gold);transform:translateY(-4px);}
+.cta-card-icon{font-size:26px;margin-bottom:12px;}
+.cta-card-title{font-family:'Playfair Display',serif;color:var(--cream);font-size:17px;margin-bottom:6px;}
+.cta-card-desc{color:var(--brown);font-size:13px;line-height:1.6;margin-bottom:18px;}
+.cta-card-link{color:var(--gold);font-size:13px;}
+
+/* Footer */
+footer{background:var(--dark);padding:44px 7%;border-top:1px solid rgba(200,169,110,.15);}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--cream);letter-spacing:3px;}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;}
+.footer-links a{color:var(--brown);font-size:13px;text-decoration:none;transition:color .2s;cursor:pointer;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{color:#4A3C28;font-size:12px;margin-top:20px;text-align:center;}
+
+/* Rechtliche sections */
+.recht-section{display:none;padding:80px 7%;max-width:800px;margin:0 auto;}
+.recht-section.visible{display:block;}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.85);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--cream2);border-radius:22px;padding:36px;width:90%;max-width:420px;position:relative;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:6px;}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;color:var(--brown);cursor:pointer;}
+.modal-p{font-size:13px;color:var(--brown);margin-bottom:24px;}
+.m-inp{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:11px;background:var(--cream);font-family:inherit;font-size:14px;color:var(--text);outline:none;margin-bottom:12px;transition:border-color .2s;}
+.m-inp:focus{border-color:var(--gold);}
+.m-btn{width:100%;padding:13px;border-radius:13px;border:none;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;}
+.m-btn-gold{background:var(--gold);color:var(--dark);}
+.m-btn-dark{background:var(--dark);color:var(--cream);}
+.m-err{color:var(--red);font-size:12px;padding:8px 12px;background:#FFF0F0;border-radius:8px;margin-bottom:12px;display:none;}
+
+/* ══════════════════════════════════
+   VEREIN DASHBOARD
+══════════════════════════════════ */
+.dash-wrap{display:flex;min-height:100vh;}
+.sidebar{width:210px;background:var(--dark);display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sb-logo-wrap{padding:22px 16px 16px;border-bottom:1px solid rgba(200,169,110,.2);}
+.sb-logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--cream);letter-spacing:3px;}
+.sb-verein{font-size:11px;color:var(--brown);margin-top:4px;}
+.sb-nav{padding:12px 8px;flex:1;}
+.ni{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--brown);font-size:13px;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;font-family:inherit;transition:all .15s;}
+.ni:hover{background:rgba(255,255,255,.05);color:var(--cream);}
+.ni.active{background:rgba(200,169,110,.15);color:var(--gold);}
+.nb{margin-left:auto;background:var(--red);color:#fff;font-size:10px;border-radius:8px;padding:1px 6px;}
+.sb-foot{padding:12px;border-top:1px solid rgba(200,169,110,.15);}
+.sb-user{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.sb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--dark2),var(--dark3));display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid var(--gold);flex-shrink:0;}
+.sb-name{font-size:12px;color:var(--cream);}
+.sb-email{font-size:10px;color:var(--brown);}
+.btn-out{width:100%;padding:7px;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--brown);border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;}
+.btn-out:hover{border-color:var(--red);color:var(--red);}
+.dash-main{flex:1;overflow-x:hidden;}
+.dpage{display:none;padding:26px;}
+.dpage.active{display:block;}
+.pg-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);margin-bottom:2px;}
+.pg-sub{font-size:13px;color:var(--brown);margin-bottom:20px;}
+.dstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+.dstat{background:var(--cream2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.dstat-ico{font-size:22px;margin-bottom:6px;}
+.dstat-n{font-family:'Playfair Display',serif;font-size:26px;color:var(--text);}
+.dstat-l{font-size:11px;color:var(--brown);margin-top:2px;}
+.dcard{background:var(--cream2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;}
+.dcard-ttl{font-size:10px;color:var(--brown);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.dcard-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.dbtn-gold{background:var(--gold);color:var(--dark);border:none;padding:7px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;}
+.drow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0EBE0;}
+.drow:last-child{border:none;}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:500;}
+.b-grn{background:rgba(58,125,68,.12);color:var(--green);}
+.b-gld{background:rgba(200,169,110,.2);color:#8B6800;}
+.b-red{background:rgba(232,92,92,.12);color:var(--red);}
+.b-blue{background:rgba(91,155,213,.15);color:#185FA5;}
+.bew-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F0EBE0;}
+.bew-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--dark2),var(--dark3));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.bew-inf{flex:1;}
+.bew-name{font-size:13px;font-weight:500;}
+.bew-mail{font-size:11px;color:var(--brown);}
+.btn-sm{padding:6px 12px;font-size:11px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;font-family:inherit;color:var(--text);}
+/* Analyse tabs */
+.an-tabs{display:flex;gap:4px;background:#EDE8DE;border-radius:10px;padding:4px;margin-bottom:14px;}
+.an-tab{flex:1;padding:8px 6px;border-radius:7px;border:none;cursor:pointer;background:transparent;color:var(--brown);font-size:12px;font-family:inherit;transition:all .15s;}
+.an-tab.active{background:var(--cream2);color:var(--text);font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.an-sec{display:none;}
+.an-sec.active{display:block;}
+.prog{height:8px;background:#EDE8DE;border-radius:4px;overflow:hidden;margin-top:6px;}
+.prog-fill{height:100%;border-radius:4px;}
+/* Profil / forms */
+.d-inp{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--cream);font-family:inherit;font-size:13px;color:var(--text);outline:none;margin-bottom:10px;}
+.d-inp:focus{border-color:var(--gold);}
+.d-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+/* Login screen */
+.login-wrap{min-height:100vh;background:linear-gradient(160deg,var(--dark),var(--dark2) 60%,#3D3020);display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+.login-box{background:var(--cream2);border-radius:22px;padding:36px;width:100%;max-width:400px;}
+.login-logo{font-family:'Playfair Display',serif;font-size:26px;color:var(--dark);letter-spacing:3px;margin-bottom:4px;}
+.login-sub{font-size:13px;color:var(--brown);margin-bottom:24px;}
+.login-tabs{display:flex;gap:4px;background:#EDE8DE;border-radius:10px;padding:4px;margin-bottom:22px;}
+.login-tab{flex:1;padding:8px;text-align:center;border-radius:8px;font-size:13px;cursor:pointer;color:var(--brown);border:none;background:transparent;font-family:inherit;transition:all .2s;}
+.login-tab.active{background:var(--cream2);color:var(--text);font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.1);}
+/* Toast */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--dark);color:var(--cream);padding:11px 22px;border-radius:22px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+
+@media(max-width:768px){
+  .hero{flex-direction:column;text-align:center;padding:100px 5% 60px;}
+  .hero-btns{justify-content:center;}
+  .phone-frame{width:180px;}
+  .for-grid,.steps,.pricing-grid{grid-template-columns:1fr;}
+  .for-card:first-child,.for-card:last-child,.for-card{border-radius:18px;}
+  .stats-bar{gap:28px;}
+  .nav-links{display:none;}
+  .dstats{grid-template-columns:1fr 1fr;}
+  .sidebar{display:none;}
+  .pain-grid{grid-template-columns:1fr;}
+  .d-form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div id="demo-banner" style="background:linear-gradient(90deg,#C8A96E,#E8C88E);padding:10px 20px;text-align:center;font-size:13px;color:var(--dark);font-weight:500">
+  🎭 Demo-Ansicht – NABU Einhausen ·
+  <button onclick="window.location.href='index.html'" style="background:rgba(0,0,0,0.15);border:none;padding:4px 12px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;margin-left:8px">← Zurück zur Homepage</button>
+</div>
+<div class="page active" id="page-verein-dash">
+  <div id="demo-banner" style="display:none;background:linear-gradient(90deg,#C8A96E,#E8C88E);padding:10px 20px;text-align:center;font-size:13px;color:var(--dark);font-weight:500">
+    🎭 Demo-Modus – keine echten Daten · <button onclick="window.location.href='index.html'" style="background:rgba(0,0,0,0.15);border:none;padding:4px 12px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;margin-left:8px">← Zurück zur Website</button>
+  </div>
+  <div class="dash-wrap">
+    <aside class="sidebar">
+      <div class="sb-logo-wrap">
+        <div class="sb-logo">Civico</div>
+        <div class="sb-verein" id="sb-name">Vereinsname</div>
+      </div>
+      <nav class="sb-nav">
+        <button class="ni active" onclick="showDash('dashboard',this)"><span>📊</span> Dashboard</button>
+        <button class="ni" onclick="showDash('stellen',this)"><span>🌱</span> Stellen</button>
+        <button class="ni" onclick="showDash('anmeldungen',this)"><span>👥</span> Anmeldungen <span class="nb" id="nb-anm" style="display:none">0</span></button>
+        <button class="ni" onclick="showDash('analyse',this)"><span>📈</span> Analyse</button>
+        <button class="ni" onclick="showDash('profil',this)"><span>🏢</span> Profil</button>
+        <button class="ni" onclick="showDash('notif',this)"><span>🔔</span> Benachrichtigungen <span class="nb" id="nb-notif" style="display:none">0</span></button>
+      </nav>
+      <div class="sb-foot">
+        <div class="sb-user">
+          <div class="sb-av" id="sb-av">🏢</div>
+          <div><div class="sb-name" id="sb-email-disp">-</div><div class="sb-email" id="sb-ort-disp">-</div></div>
+        </div>
+        <button class="btn-out" onclick="doLogout()">← Abmelden</button>
+      </div>
+    </aside>
+    <main class="dash-main">
+      <!-- DASHBOARD -->
+      <div class="dpage active" id="dp-dashboard">
+        <div class="pg-title">Dashboard</div>
+        <div class="pg-sub" id="dp-greeting">Willkommen!</div>
+        <div class="dstats">
+          <div class="dstat"><div class="dstat-ico">🌱</div><div class="dstat-n" id="ds-stellen">0</div><div class="dstat-l">Aktive Stellen</div></div>
+          <div class="dstat"><div class="dstat-ico">👥</div><div class="dstat-n" id="ds-anm">0</div><div class="dstat-l">Anmeldungen</div></div>
+          <div class="dstat"><div class="dstat-ico">👁️</div><div class="dstat-n" id="ds-aufrufe">0</div><div class="dstat-l">Aufrufe</div></div>
+          <div class="dstat"><div class="dstat-ico">❤️</div><div class="dstat-n" id="ds-follower">0</div><div class="dstat-l">Follower</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-ttl" style="margin:0">Deine Stellen</div><button class="dbtn-gold" onclick="showDash('stellen');showStelleForm()">+ Neue Stelle</button></div>
+          <div id="dp-stellen-list"><div style="font-size:13px;color:var(--brown)">Noch keine Stellen.</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-ttl">Letzte Anmeldungen</div>
+          <div id="dp-anm-list"><div style="font-size:13px;color:var(--brown)">Noch keine Anmeldungen.</div></div>
+        </div>
+      </div>
+      <!-- STELLEN -->
+      <div class="dpage" id="dp-stellen">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+          <div><div class="pg-title">Stellen</div><div class="pg-sub" style="margin:0">Verwalte deine Ehrenamtsstellen</div></div>
+          <button class="dbtn-gold" onclick="showStelleForm()">+ Neue Stelle</button>
+        </div>
+        <div class="dcard" id="stelle-form" style="display:none">
+          <div class="dcard-ttl" id="sf-ttl">NEUE STELLE</div>
+          <input class="d-inp" id="sf-titel" placeholder="Titel (z.B. Bachpatenschaft)">
+          <textarea class="d-inp" id="sf-beschr" rows="3" placeholder="Beschreibung"></textarea>
+          <div class="d-form-row">
+            <select class="d-inp" id="sf-typ" onchange="toggleAufwand()">
+              <option value="event">📅 Einmaliges Event</option>
+              <option value="dauerhaft">🔄 Dauerhaft</option>
+            </select>
+            <select class="d-inp" id="sf-kat">
+              <option value="umwelt">🌱 Umwelt</option>
+              <option value="sozial">🤝 Soziales</option>
+              <option value="sport">⚽ Sport</option>
+              <option value="kultur">🎨 Kultur</option>
+              <option value="bildung">📚 Bildung</option>
+              <option value="senioren">👴 Senioren</option>
+              <option value="tiere">🐾 Tierschutz</option>
+            </select>
+          </div>
+          <div id="sf-aufwand-wrap" style="display:none">
+            <input class="d-inp" type="number" id="sf-aufwand" min="0.5" step="0.5" placeholder="Stunden / Woche">
+          </div>
+          <div class="d-form-row">
+            <input class="d-inp" id="sf-standort" placeholder="Treffpunkt / Standort">
+            <input class="d-inp" id="sf-ansp" placeholder="Ansprechpartner (opt.)">
+          </div>
+          <!-- Termine -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-size:11px;color:var(--brown);letter-spacing:1px;text-transform:uppercase" id="sf-termin-lbl">TERMINE</div>
+            <button class="btn-sm" onclick="addTermin()" id="sf-add-termin-btn">+ Termin</button>
+          </div>
+          <div id="sf-termine"></div>
+          <div class="m-err" id="sf-err"></div>
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <button class="btn-sm" onclick="hideStelleForm()" style="flex:1">Abbrechen</button>
+            <button class="dbtn-gold" onclick="saveStelleForm()" style="flex:2;border-radius:10px;padding:10px">Stelle speichern ✓</button>
+          </div>
+        </div>
+        <div id="stellen-list"></div>
+      </div>
+      <!-- ANMELDUNGEN -->
+      <div class="dpage" id="dp-anmeldungen">
+        <div class="pg-title">Anmeldungen</div>
+        <div class="pg-sub">Alle Anmeldungen zu deinen Stellen</div>
+        <div id="anm-list"></div>
+      </div>
+      <!-- ANALYSE -->
+      <div class="dpage" id="dp-analyse">
+        <div class="pg-title">Analyse</div>
+        <div class="pg-sub" style="margin-bottom:14px">Statistiken deines Vereins</div>
+        <div class="an-tabs">
+          <button class="an-tab active" onclick="showAnTab('uebersicht',this)">📊 Übersicht</button>
+          <button class="an-tab" onclick="showAnTab('follower',this)">👥 Follower</button>
+          <button class="an-tab" onclick="showAnTab('stellen-an',this)">🌱 Stellen</button>
+        </div>
+        <div class="an-sec active" id="an-uebersicht">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+            <div class="dstat"><div class="dstat-ico">👁️</div><div class="dstat-n" style="color:#5B9BD5" id="an-aufrufe">0</div><div class="dstat-l">Aufrufe</div></div>
+            <div class="dstat"><div class="dstat-ico">✅</div><div class="dstat-n" style="color:var(--green)" id="an-anm">0</div><div class="dstat-l">Anmeldungen</div></div>
+            <div class="dstat"><div class="dstat-ico">🎯</div><div class="dstat-n" style="color:#6BAF7A" id="an-ers">0</div><div class="dstat-l">Erschienen</div></div>
+            <div class="dstat"><div class="dstat-ico">❌</div><div class="dstat-n" style="color:var(--red)" id="an-nicht">0</div><div class="dstat-l">Nicht erschienen</div></div>
+          </div>
+          <div class="dcard">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:500">🎯 Erscheinensquote</div><div style="font-size:16px;font-weight:bold;color:var(--green)" id="an-q-num">0%</div></div>
+            <div class="prog"><div class="prog-fill" id="an-q-bar" style="width:0%;background:var(--green)"></div></div>
+            <div style="font-size:11px;color:var(--brown);margin-top:6px" id="an-q-lbl">Keine Daten</div>
+          </div>
+        </div>
+        <div class="an-sec" id="an-follower">
+          <div style="background:linear-gradient(135deg,var(--dark2),var(--dark3));border-radius:12px;padding:18px;text-align:center;color:var(--cream);margin-bottom:12px">
+            <div style="font-family:'Playfair Display',serif;font-size:44px;color:var(--gold)" id="an-fol-n">0</div>
+            <div style="font-size:13px;color:var(--brown)">Freiwillige folgen deinem Verein</div>
+          </div>
+          <div class="dcard">
+            <div class="dcard-ttl">ANGEMELDETE & FOLLOWER</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+              <div style="background:rgba(58,125,68,.1);border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:bold;color:var(--green)" id="an-fol-ja">0</div><div style="font-size:11px;color:var(--brown)">Folgen dir</div></div>
+              <div style="background:rgba(232,92,92,.1);border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:bold;color:var(--red)" id="an-fol-nein">0</div><div style="font-size:11px;color:var(--brown)">Ohne Follow</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-size:12px;color:var(--brown)">Follow-Quote deiner Teilnehmer</div><div style="font-size:14px;font-weight:bold;color:var(--green)" id="an-fq">0%</div></div>
+            <div class="prog"><div class="prog-fill" id="an-fq-bar" style="width:0%;background:var(--green)"></div></div>
+          </div>
+        </div>
+        <div class="an-sec" id="an-stellen-an">
+          <div class="dcard">
+            <div class="dcard-ttl">AKTIVE STELLEN</div>
+            <div id="an-stellen-list"><div style="font-size:13px;color:var(--brown)">Keine Daten</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- PROFIL -->
+      <div class="dpage" id="dp-profil">
+        <div class="pg-title">Vereinsprofil</div>
+        <div class="pg-sub">So sehen dich Freiwillige</div>
+        <div style="background:linear-gradient(135deg,var(--dark2),var(--dark3));border-radius:12px;padding:22px;text-align:center;color:var(--cream);margin-bottom:16px">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 10px;border:2px solid var(--gold)" id="p-logo-disp">🏢</div>
+          <div style="font-size:18px;font-weight:bold" id="p-name-disp">Vereinsname</div>
+          <div style="font-size:12px;color:var(--brown)" id="p-ort-disp">📍 Ort</div>
+        </div>
+        <div class="dcard">
+          <input class="d-inp" id="p-name" placeholder="Vereinsname">
+          <div class="d-form-row">
+            <input class="d-inp" id="p-ort" placeholder="Ort">
+            <input class="d-inp" id="p-plz" placeholder="PLZ">
+          </div>
+          <input class="d-inp" id="p-strasse" placeholder="Straße & Hausnummer">
+          <input class="d-inp" type="email" id="p-kemail" placeholder="Öffentliche Kontakt-Email">
+          <div class="d-form-row">
+            <input class="d-inp" id="p-tel" placeholder="Telefon (opt.)">
+            <input class="d-inp" id="p-web" placeholder="Website (opt.)">
+          </div>
+          <div class="d-form-row">
+            <input class="d-inp" type="number" id="p-mitgl" placeholder="Mitgliederzahl">
+            <input class="d-inp" type="number" id="p-gegr" placeholder="Gegründet">
+          </div>
+          <textarea class="d-inp" id="p-beschr" rows="3" placeholder="Über uns..."></textarea>
+          <button class="dbtn-gold" onclick="saveProfil()" style="width:100%;padding:12px;border-radius:10px">Speichern ✓</button>
+        </div>
+      </div>
+      <!-- BENACHRICHTIGUNGEN -->
+      <div class="dpage" id="dp-notif">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+          <div><div class="pg-title">Benachrichtigungen</div><div class="pg-sub" style="margin:0"></div></div>
+          <button class="btn-sm" onclick="markAllRead()">Alle gelesen</button>
+        </div>
+        <div id="notif-list"><div style="font-size:13px;color:var(--brown)">Keine Benachrichtigungen.</div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><!-- ══════════════════════════════════════
+
+     PAGE: PARTNER & SPONSORING
+══════════════════════════════════════ -->
+<script>
+
+const DEMO_VEREIN = {
+  id:'demo-v', name:'NABU Einhausen', email:'nabu@einhausen.de',
+  ort:'Einhausen', plz:'64683', logo:'🦫', verifiziert:true,
+  beschreibung:'Wir setzen uns für Natur- und Umweltschutz in Einhausen und der Bergstraße ein. Seit 1990 engagieren sich über 40 Mitglieder für Artenvielfalt, Gewässerschutz und Naturbildung.',
+  mitglieder:42, gegruendet:1990,
+  telefon:'+49 6251 123456', website:'www.nabu-einhausen.de',
+  strasse:'Hauptstraße 12', kontakt_email:'kontakt@nabu-einhausen.de'
+};
+
+const today = new Date();
+const fmt = (d) => d.toISOString().split('T')[0];
+const addDays = (d, n) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
+const subDays = (d, n) => addDays(d, -n);
+
+const DEMO_STELLEN = [
+  {
+    id:'ds1', titel:'Gewässermonitoring Grundbach',
+    beschreibung:'Wasserqualität und Artenvielfalt im Grundbach erfassen. Keine Vorkenntnisse nötig – Einweisung erfolgt vor Ort.',
+    kategorie:'umwelt', typ:'event', ort:'Grundbach Einhausen', aufrufe:34, archiviert:false,
+    termine:[
+      { id:'dt1', datum:fmt(addDays(today,5)), startzeit:'08:00', endzeit:'11:30', freie_plaetze:2, gesamt_plaetze:6,
+        bewerbungen:[
+          {id:'db1',freiwilliger_id:'fw1',freiwilliger_name:'Max Hofmann',freiwilliger_email:'m.hofmann@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt1'},
+          {id:'db2',freiwilliger_id:'fw2',freiwilliger_name:'Lena Bauer',freiwilliger_email:'l.bauer@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt1'},
+          {id:'db3',freiwilliger_id:'fw3',freiwilliger_name:'Jonas Keller',freiwilliger_email:'j.keller@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt1'},
+          {id:'db4',freiwilliger_id:'fw4',freiwilliger_name:'Sarah Müller',freiwilliger_email:'s.mueller@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt1'},
+        ]},
+      { id:'dt2', datum:fmt(addDays(today,19)), startzeit:'08:00', endzeit:'11:30', freie_plaetze:5, gesamt_plaetze:6, bewerbungen:[
+          {id:'db5',freiwilliger_id:'fw2',freiwilliger_name:'Lena Bauer',freiwilliger_email:'l.bauer@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt2'},
+        ]}
+    ]
+  },
+  {
+    id:'ds2', titel:'Streuobstwiese Pflege & Ernte',
+    beschreibung:'Gemeinsam die Streuobstwiese am Ortsrand pflegen: Äpfel ernten, Hochgras mähen, Totholz entfernen. Gutes Schuhwerk mitbringen.',
+    kategorie:'umwelt', typ:'event', ort:'Streuobstwiese Einhausen', aufrufe:61, archiviert:false,
+    termine:[
+      { id:'dt3', datum:fmt(addDays(today,12)), startzeit:'09:00', endzeit:'14:00', freie_plaetze:0, gesamt_plaetze:8,
+        bewerbungen:[
+          {id:'db6',freiwilliger_id:'fw1',freiwilliger_name:'Max Hofmann',freiwilliger_email:'m.hofmann@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+          {id:'db7',freiwilliger_id:'fw5',freiwilliger_name:'Anna Schmidt',freiwilliger_email:'a.schmidt@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+          {id:'db8',freiwilliger_id:'fw6',freiwilliger_name:'Peter Weber',freiwilliger_email:'p.weber@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+          {id:'db9',freiwilliger_id:'fw7',freiwilliger_name:'Clara Vogel',freiwilliger_email:'c.vogel@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+          {id:'db10',freiwilliger_id:'fw8',freiwilliger_name:'Tim Braun',freiwilliger_email:'t.braun@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+          {id:'db11',freiwilliger_id:'fw9',freiwilliger_name:'Marie Kern',freiwilliger_email:'m.kern@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+          {id:'db12',freiwilliger_id:'fw3',freiwilliger_name:'Jonas Keller',freiwilliger_email:'j.keller@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+          {id:'db13',freiwilliger_id:'fw10',freiwilliger_name:'Felix Roth',freiwilliger_email:'f.roth@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt3'},
+        ]}
+    ]
+  },
+  {
+    id:'ds3', titel:'Naturführung für Schulklassen',
+    beschreibung:'Begleitung von Schulklassen bei Naturführungen im Ried. Ideal für Personen mit pädagogischem Hintergrund oder Naturbegeisterung.',
+    kategorie:'bildung', typ:'dauerhaft', aufwand:'3h/Woche', ort:'Ried Einhausen', aufrufe:28, archiviert:false,
+    termine:[
+      { id:'dt4', datum:fmt(addDays(today,8)), startzeit:'09:30', endzeit:'12:30', freie_plaetze:1, gesamt_plaetze:3,
+        bewerbungen:[
+          {id:'db14',freiwilliger_id:'fw5',freiwilliger_name:'Anna Schmidt',freiwilliger_email:'a.schmidt@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt4'},
+          {id:'db15',freiwilliger_id:'fw11',freiwilliger_name:'Klaus Werner',freiwilliger_email:'k.werner@mail.de',bestaetigt:false,nicht_erschienen:false,termin_id:'dt4'},
+        ]}
+    ]
+  },
+  {
+    id:'ds4', titel:'Nistkästen aufhängen & kontrollieren',
+    beschreibung:'Nistkästen für Mauersegler und Fledermäuse im Ortskern aufhängen und bestehende Kästen auf Besatz prüfen.',
+    kategorie:'umwelt', typ:'event', ort:'Ortskern Einhausen', aufrufe:19, archiviert:false,
+    termine:[
+      { id:'dt5', datum:fmt(subDays(today,10)), startzeit:'10:00', endzeit:'13:00', freie_plaetze:0, gesamt_plaetze:4,
+        bewerbungen:[
+          {id:'db16',freiwilliger_id:'fw1',freiwilliger_name:'Max Hofmann',freiwilliger_email:'m.hofmann@mail.de',bestaetigt:true,nicht_erschienen:false,termin_id:'dt5'},
+          {id:'db17',freiwilliger_id:'fw2',freiwilliger_name:'Lena Bauer',freiwilliger_email:'l.bauer@mail.de',bestaetigt:true,nicht_erschienen:false,termin_id:'dt5'},
+          {id:'db18',freiwilliger_id:'fw3',freiwilliger_name:'Jonas Keller',freiwilliger_email:'j.keller@mail.de',bestaetigt:false,nicht_erschienen:true,termin_id:'dt5'},
+          {id:'db19',freiwilliger_id:'fw6',freiwilliger_name:'Peter Weber',freiwilliger_email:'p.weber@mail.de',bestaetigt:true,nicht_erschienen:false,termin_id:'dt5'},
+        ]}
+    ]
+  },
+];
+
+const DEMO_NOTIFS = [
+  {id:'dn1',titel:'✅ Neue Anmeldung',text:'Max Hofmann hat sich für "Gewässermonitoring Grundbach" am '+addDays(today,5).toLocaleDateString('de-DE')+' angemeldet.',created_at:new Date(Date.now()-1800000).toISOString(),gelesen:false},
+  {id:'dn2',titel:'✅ Neue Anmeldung',text:'Lena Bauer hat sich für "Streuobstwiese Pflege & Ernte" angemeldet.',created_at:new Date(Date.now()-3600000).toISOString(),gelesen:false},
+  {id:'dn3',titel:'⚠️ Stelle ausgebucht',text:'"Streuobstwiese Pflege & Ernte" am '+addDays(today,12).toLocaleDateString('de-DE')+' ist ausgebucht.',created_at:new Date(Date.now()-7200000).toISOString(),gelesen:false},
+  {id:'dn4',titel:'❌ Abmeldung',text:'Jonas Keller hat sich von "Nistkästen" abgemeldet.',created_at:new Date(Date.now()-86400000).toISOString(),gelesen:true},
+];
+
+// ── HELPERS ──────────────────────────────────────────────────────────────
+function getKatIcon(k){return{umwelt:'🌱',sozial:'🤝',sport:'⚽',kultur:'🎨',bildung:'📚',senioren:'👴',tiere:'🐾'}[k]||'📋';}
+function fmtDate(d){if(!d)return'';return new Date(d).toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'});}
+function fmtDateTime(d,t){if(!d)return'';const day=new Date(d).toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long'});return t?day+' · '+t+' Uhr':day;}
+function toast(msg,color){const el=document.getElementById('toast');el.textContent=msg;el.style.background=color||'#2C2416';el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const el=document.getElementById('page-'+id);if(el)el.classList.add('active');window.scrollTo(0,0);}
+function openModal(id){const el=document.getElementById('modal-'+id);if(el)el.classList.add('open');}
+function closeModal(id){const el=document.getElementById('modal-'+id);if(el)el.classList.remove('open');}
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))e.target.classList.remove('open');});
+
+// ── DEMO INIT ─────────────────────────────────────────────────────────────
+function initDemo() {
+  const v = DEMO_VEREIN;
+  document.getElementById('sb-name').textContent = v.name;
+  document.getElementById('sb-av').textContent = v.logo;
+  document.getElementById('sb-email-disp').textContent = v.name;
+  document.getElementById('sb-ort-disp').textContent = v.ort;
+  document.getElementById('dp-greeting').textContent = 'Willkommen bei der Demo, ' + v.name + '!';
+  renderDemoOverview();
+  renderDemoStellen();
+  renderDemoAnmeldungen();
+  renderDemoNotifs();
+  renderDemoProfil();
+}
+
+// ── OVERVIEW ─────────────────────────────────────────────────────────────
+function renderDemoOverview() {
+  const allBews = DEMO_STELLEN.flatMap(s=>s.termine.flatMap(t=>t.bewerbungen));
+  document.getElementById('ds-stellen').textContent = DEMO_STELLEN.filter(s=>!s.archiviert).length;
+  document.getElementById('ds-anm').textContent = allBews.length;
+  document.getElementById('ds-aufrufe').textContent = DEMO_STELLEN.reduce((a,s)=>a+s.aufrufe,0);
+  document.getElementById('ds-follower').textContent = 12;
+
+  // Recent anmeldungen on dashboard
+  const recent = allBews.slice(0,3);
+  document.getElementById('dp-anm-list').innerHTML = recent.map(b=>{
+    const s = DEMO_STELLEN.find(x=>x.termine.some(t=>t.id===b.termin_id));
+    const t = DEMO_STELLEN.flatMap(x=>x.termine).find(t=>t.id===b.termin_id);
+    return `<div class="bew-row"><div class="bew-av">👤</div><div class="bew-inf"><div class="bew-name">${b.freiwilliger_name}</div><div class="bew-mail">${s?.titel||''} · ${fmtDate(t?.datum||'')}</div></div><span class="badge b-blue">Ausstehend</span></div>`;
+  }).join('');
+
+  // Stellen overview
+  document.getElementById('dp-stellen-list').innerHTML = DEMO_STELLEN.filter(s=>!s.archiviert).slice(0,3).map(s=>{
+    const anm = s.termine.reduce((a,t)=>a+t.bewerbungen.length,0);
+    const naechst = s.termine.find(t=>new Date(t.datum)>=new Date());
+    return `<div class="drow"><div><div style="font-size:14px;font-weight:500">${getKatIcon(s.kategorie)} ${s.titel}</div><div style="font-size:11px;color:var(--brown)">${anm} Anmeldungen${naechst?' · nächster: '+fmtDate(naechst.datum):''}</div></div><span class="badge ${naechst&&naechst.freie_plaetze===0?'b-red':'b-grn'}">${naechst&&naechst.freie_plaetze===0?'Ausgebucht':naechst?(naechst.freie_plaetze+' frei'):'–'}</span></div>`;
+  }).join('');
+}
+
+// ── STELLEN ───────────────────────────────────────────────────────────────
+function renderDemoStellen() {
+  document.getElementById('stellen-list').innerHTML = DEMO_STELLEN.map(s=>{
+    const anm = s.termine.reduce((a,t)=>a+t.bewerbungen.length,0);
+    return `<div class="dcard">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:15px;font-weight:500">${getKatIcon(s.kategorie)} ${s.titel}</div>
+          <div style="font-size:11px;color:var(--brown)">📍 ${s.ort} · 👥 ${anm} Anmeldungen · 👁️ ${s.aufrufe} Aufrufe</div>
+          ${s.typ==='dauerhaft'?`<div style="font-size:11px;color:var(--gold);margin-top:2px">🔄 Dauerhaft · ${s.aufwand}</div>`:''}
+        </div>
+        <span class="badge b-grn">Aktiv</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+        ${s.termine.map(t=>`<span class="badge ${t.freie_plaetze===0?'b-red':'b-blue'}">📅 ${fmtDate(t.datum)} ${t.startzeit} · ${t.freie_plaetze===0?'Ausgebucht':t.freie_plaetze+' frei'}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-sm" onclick="showDash('anmeldungen')">👥 Anmeldungen</button>
+        <button class="btn-sm" style="color:#8B7355;border-color:#C4B89A" onclick="toast('Demo – Bearbeiten nicht möglich.','#8B7355')">✏️ Bearbeiten</button>
+        <button class="btn-sm" style="color:#C4B89A;border-color:#C4B89A" onclick="toast('Demo – Löschen nicht möglich.','#8B7355')">🗑 Löschen</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── ANMELDUNGEN ───────────────────────────────────────────────────────────
+function renderDemoAnmeldungen() {
+  const grouped = {};
+  DEMO_STELLEN.forEach(s=>{
+    s.termine.forEach(t=>{
+      t.bewerbungen.forEach(b=>{
+        if(!grouped[s.id]) grouped[s.id]={stelle:s,items:[]};
+        grouped[s.id].items.push({b,t});
+      });
+    });
+  });
+
+  // Unread badge
+  const allBews = DEMO_STELLEN.flatMap(s=>s.termine.flatMap(t=>t.bewerbungen));
+  const unread = allBews.filter(b=>!b.bestaetigt&&!b.nicht_erschienen).length;
+  const nb = document.getElementById('nb-anm');
+  nb.textContent = unread; nb.style.display = 'inline';
+
+  document.getElementById('anm-list').innerHTML = Object.values(grouped).map(({stelle,items})=>`
+    <div class="dcard">
+      <div class="dcard-ttl">${getKatIcon(stelle.kategorie)} ${stelle.titel}</div>
+      ${items.map(({b,t})=>{
+        const past = new Date(t.datum+'T'+(t.endzeit||'23:59')) < new Date();
+        return `<div class="bew-row">
+          <div class="bew-av">👤</div>
+          <div class="bew-inf">
+            <div class="bew-name">${b.freiwilliger_name}</div>
+            <div class="bew-mail">📧 ${b.freiwilliger_email} · ${fmtDateTime(t.datum,t.startzeit)}</div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center">
+            ${b.bestaetigt?'<span class="badge b-grn">✓ Erschienen</span>':
+              b.nicht_erschienen?'<span class="badge b-red">✗ Nicht erschienen</span>':
+              past?`<button class="btn-sm" style="color:var(--green);border-color:var(--green)" onclick="demoBestaetigen('${b.id}',true)">✓</button><button class="btn-sm" style="color:var(--red);border-color:var(--red)" onclick="demoBestaetigen('${b.id}',false)">✗</button>`:
+              '<span class="badge b-blue">Ausstehend</span>'}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+}
+
+function demoBestaetigen(bewId, ja) {
+  // Find and update in demo data
+  for(const s of DEMO_STELLEN) {
+    for(const t of s.termine) {
+      const b = t.bewerbungen.find(x=>x.id===bewId);
+      if(b) { b.bestaetigt=ja; b.nicht_erschienen=!ja; break; }
+    }
+  }
+  toast(ja?'✓ Erschienen bestätigt (+5 Punkte)':'✗ Nicht erschienen markiert (-15 Punkte)', ja?'#3A7D44':'#E85C5C');
+  renderDemoAnmeldungen();
+}
+
+// ── ANALYSE ───────────────────────────────────────────────────────────────
+function renderDemoAnalyse() {
+  const allBews = DEMO_STELLEN.flatMap(s=>s.termine.flatMap(t=>t.bewerbungen));
+  const ers = allBews.filter(b=>b.bestaetigt).length;
+  const nicht = allBews.filter(b=>b.nicht_erschienen).length;
+  const gesamt = allBews.length;
+  const q = gesamt ? Math.round(ers/gesamt*100) : 0;
+
+  document.getElementById('an-aufrufe').textContent = DEMO_STELLEN.reduce((a,s)=>a+s.aufrufe,0);
+  document.getElementById('an-anm').textContent = gesamt;
+  document.getElementById('an-ers').textContent = ers;
+  document.getElementById('an-nicht').textContent = nicht;
+  document.getElementById('an-q-num').textContent = q+'%';
+  document.getElementById('an-q-num').style.color = q>=70?'#3A7D44':q>=40?'#E8A87C':'#E85C5C';
+  document.getElementById('an-q-bar').style.width = q+'%';
+  document.getElementById('an-q-bar').style.background = q>=70?'#3A7D44':'#E8A87C';
+  document.getElementById('an-q-lbl').textContent = q>=70?'🌟 Sehr gut!':q>=40?'👍 Noch Luft nach oben':'⚠️ Viele Ausfälle';
+
+  // Follower
+  document.getElementById('an-fol-n').textContent = 12;
+  document.getElementById('an-fol-ja').textContent = 5;
+  document.getElementById('an-fol-nein').textContent = gesamt-5>0?gesamt-5:0;
+  document.getElementById('an-fq').textContent = '42%';
+  document.getElementById('an-fq-bar').style.width = '42%';
+
+  // CSR per stelle - with hours
+  document.getElementById('an-stellen-list').innerHTML = DEMO_STELLEN.map(s=>{
+    const bews = s.termine.flatMap(t=>t.bewerbungen);
+    const sErs = bews.filter(b=>b.bestaetigt).length;
+    const sQ = bews.length?Math.round(sErs/bews.length*100):0;
+    // Calculate total hours
+    const totalStunden = s.termine.reduce((acc,t)=>{
+      const start = t.startzeit?.split(':').map(Number)||[0,0];
+      const end = t.endzeit?.split(':').map(Number)||[0,0];
+      const h = (end[0]*60+end[1]-start[0]*60-start[1])/60;
+      return acc + (sErs * h);
+    }, 0);
+    return `<div style="padding:14px 0;border-bottom:1px solid #F0EBE0">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:500">${getKatIcon(s.kategorie)} ${s.titel}</div>
+        <div style="font-size:12px;color:var(--brown)">${bews.length} Anmeldungen</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <span class="badge b-blue">👁️ ${s.aufrufe} Aufrufe</span>
+        <span class="badge b-grn">🎯 ${sErs} Erschienen</span>
+        <span class="badge ${sQ>=70?'b-grn':'b-gld'}">📊 ${sQ}%</span>
+        ${totalStunden>0?`<span class="badge b-blue">⏱️ ${totalStunden.toFixed(1)}h geleistet</span>`:''}
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <div style="font-size:11px;color:var(--brown)">👥 Follow-Quote</div>
+        <div style="font-size:11px;font-weight:500;color:#E8A87C">${Math.round(Math.random()*40+30)}%</div>
+      </div>
+      <div class="prog"><div class="prog-fill" style="width:${Math.round(Math.random()*40+30)}%;background:linear-gradient(90deg,#C8A96E,#E8A87C)"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ── NOTIFICATIONS ─────────────────────────────────────────────────────────
+function renderDemoNotifs() {
+  const unread = DEMO_NOTIFS.filter(n=>!n.gelesen).length;
+  const nb = document.getElementById('nb-notif');
+  nb.textContent = unread; nb.style.display = 'inline';
+  document.getElementById('notif-list').innerHTML = DEMO_NOTIFS.map(n=>`
+    <div style="padding:14px;background:${n.gelesen?'var(--cream2)':'#EDE8DE'};border-radius:12px;margin-bottom:8px;border:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:500;margin-bottom:3px">${n.titel}</div>
+      <div style="font-size:12px;color:var(--brown)">${n.text}</div>
+      <div style="font-size:10px;color:#C4B89A;margin-top:5px">${new Date(n.created_at).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`).join('');
+}
+
+// ── PROFIL ────────────────────────────────────────────────────────────────
+function renderDemoProfil() {
+  const v = DEMO_VEREIN;
+  document.getElementById('p-name').value = v.name;
+  document.getElementById('p-ort').value = v.ort;
+  document.getElementById('p-plz').value = v.plz;
+  document.getElementById('p-strasse').value = v.strasse;
+  document.getElementById('p-kemail').value = v.kontakt_email;
+  document.getElementById('p-tel').value = v.telefon;
+  document.getElementById('p-web').value = v.website;
+  document.getElementById('p-mitgl').value = v.mitglieder;
+  document.getElementById('p-gegr').value = v.gegruendet;
+  document.getElementById('p-beschr').value = v.beschreibung;
+  document.getElementById('p-name-disp').textContent = v.name;
+  document.getElementById('p-ort-disp').textContent = '📍 ' + v.ort;
+  document.getElementById('p-logo-disp').textContent = v.logo;
+}
+
+// ── DASHBOARD NAV ─────────────────────────────────────────────────────────
+function showDash(id, btn) {
+  document.querySelectorAll('.dpage').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#page-verein-dash .ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById('dp-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(id==='analyse') renderDemoAnalyse();
+  if(id==='notif') renderDemoNotifs();
+}
+function showAnTab(id, btn) {
+  document.querySelectorAll('.an-sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.an-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('an-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Disable form actions in demo
+function showStelleForm(){
+  // Reset form
+  document.getElementById('sf-ttl').textContent = 'NEUE STELLE (Demo)';
+  document.getElementById('sf-titel').value = '';
+  document.getElementById('sf-beschr').value = '';
+  document.getElementById('sf-typ').value = 'event';
+  document.getElementById('sf-kat').value = 'umwelt';
+  document.getElementById('sf-standort').value = '';
+  document.getElementById('sf-ansp').value = '';
+  document.getElementById('sf-termine').innerHTML = '';
+  terminCounter = 0;
+  addTermin();
+  toggleAufwand();
+  document.getElementById('stelle-form').style.display = 'block';
+  document.getElementById('stelle-form').scrollIntoView({behavior:'smooth'});
+}
+function saveProfil(){toast('Demo – Speichern nicht möglich.','#8B7355');}
+function markAllRead(){
+  DEMO_NOTIFS.forEach(n=>n.gelesen=true);
+  document.getElementById('nb-notif').style.display='none';
+  renderDemoNotifs();toast('Alle als gelesen markiert.');
+}
+
+// Start
+initDemo();
+
+
+// ── STUBS (disabled in demo) ──────────────────────────────────────────
+let terminCounter = 0;
+function addTermin(){
+  const id = terminCounter++;
+  const div = document.createElement('div');
+  div.style.cssText = 'border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px';
+  div.innerHTML = `<div style="display:flex;gap:8px;margin-bottom:8px">
+    <input class="d-inp" type="date" id="td-${id}" style="flex:2;margin:0">
+    <button onclick="this.parentElement.parentElement.remove()" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:18px">✕</button>
+  </div>
+  <div style="display:flex;gap:8px">
+    <input class="d-inp" type="time" id="ts-${id}" style="flex:1;margin:0" placeholder="Von">
+    <input class="d-inp" type="time" id="te-${id}" style="flex:1;margin:0" placeholder="Bis">
+    <input class="d-inp" type="number" id="tp-${id}" min="1" value="5" style="flex:1;margin:0" placeholder="Plätze">
+  </div>`;
+  document.getElementById('sf-termine').appendChild(div);
+}
+function toggleAufwand(){
+  const d = document.getElementById('sf-typ').value === 'dauerhaft';
+  document.getElementById('sf-aufwand-wrap').style.display = d ? 'block' : 'none';
+  document.getElementById('sf-termin-lbl').textContent = d ? 'TERMIN ZUM EINFÜHRUNGSGESPRÄCH' : 'TERMINE';
+  document.getElementById('sf-add-termin-btn').textContent = d ? '+ Einführungsgespräch' : '+ Termin';
+}
+function hideStelleForm(){document.getElementById('stelle-form').style.display='none';}
+function saveStelleForm(){
+  const titel = document.getElementById('sf-titel').value;
+  const beschr = document.getElementById('sf-beschr').value;
+  if(!titel || !beschr){
+    document.getElementById('sf-err').textContent = 'Titel und Beschreibung ausfüllen.';
+    document.getElementById('sf-err').style.display = 'block';
+    return;
+  }
+  document.getElementById('sf-err').style.display = 'none';
+  // Add to demo data temporarily
+  const newStelle = {
+    id:'ds_new_'+Date.now(),
+    titel,
+    beschreibung:beschr,
+    typ:document.getElementById('sf-typ').value,
+    kategorie:document.getElementById('sf-kat').value,
+    ort:'Einhausen',
+    aufrufe:0, archiviert:false, termine:[]
+  };
+  DEMO_STELLEN.unshift(newStelle);
+  hideStelleForm();
+  renderDemoStellen();
+  renderDemoOverview();
+  toast('✓ Demo: Stelle "'+titel+'" wurde zur Ansicht hinzugefügt (nicht gespeichert).');
+}
+function doLogout(){window.location.href='index.html';}
+function toggleAufwand(){}
+function deleteStelle(){toast('Demo – Löschen nicht möglich.','#8B7355');}
+function editStelle(){toast('Demo – Bearbeiten nicht möglich.','#8B7355');}
+
+</script>
+</body>
+</html>

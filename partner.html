@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civico – Partner & Sponsoring</title>
+<meta name="description" content="Partner werden und lokales Ehrenamt in deiner Region sichtbar unterstützen.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --dark:#1A1208; --dark2:#2C2416; --dark3:#4A3C28;
+  --gold:#C8A96E; --gold2:#E8C88E;
+  --cream:#F4F0E8; --cream2:#FAF7F2;
+  --brown:#8B7355; --green:#3A7D44; --red:#E85C5C;
+  --border:#E0D8C8; --text:#2C2416;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream2);color:var(--text);overflow-x:hidden;}
+
+/* ── PAGES ── */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ══════════════════════════════════
+   LANDING
+══════════════════════════════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,18,8,0.96);backdrop-filter:blur(12px);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;border-bottom:1px solid rgba(200,169,110,0.2);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;color:var(--cream);letter-spacing:3px;}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{color:var(--brown);text-decoration:none;font-size:14px;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{background:var(--gold);color:var(--dark);padding:9px 20px;border-radius:24px;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;border:none;font-family:inherit;}
+.nav-cta:hover{background:var(--gold2);}
+
+.hero{min-height:100vh;background:linear-gradient(160deg,var(--dark) 0%,var(--dark2) 60%,#3D3020 100%);display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:100px 7% 80px;gap:60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(58,125,68,0.1) 0%,transparent 60%);}
+.hero-left{max-width:560px;position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(58,125,68,0.15);border:1px solid rgba(58,125,68,0.3);color:#7DC487;padding:6px 16px;border-radius:24px;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,80px);color:var(--cream);line-height:1.05;margin-bottom:20px;}
+.hero h1 em{color:var(--gold);font-style:italic;}
+.hero p{font-size:17px;color:var(--brown);max-width:480px;line-height:1.7;margin-bottom:40px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{background:var(--gold);color:var(--dark);padding:15px 32px;border-radius:32px;font-size:15px;font-weight:500;text-decoration:none;border:none;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px);}
+.btn-ghost{border:1px solid rgba(200,169,110,0.4);color:var(--gold);padding:15px 32px;border-radius:32px;font-size:15px;text-decoration:none;background:none;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-ghost:hover{border-color:var(--gold);background:rgba(200,169,110,0.1);}
+.phone-frame{width:220px;background:var(--dark);border-radius:34px;border:2px solid rgba(200,169,110,0.3);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.6);flex-shrink:0;animation:float 6s ease-in-out infinite;position:relative;z-index:1;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.phone-notch{height:26px;background:var(--dark2);display:flex;align-items:center;justify-content:center;}
+.phone-notch::after{content:'';width:56px;height:6px;background:var(--dark3);border-radius:3px;}
+.phone-screen{padding:10px;}
+.app-hdr{background:linear-gradient(135deg,var(--dark2),var(--dark3));border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+.app-logo{font-family:'Playfair Display',serif;color:var(--cream);font-size:13px;letter-spacing:2px;margin-bottom:6px;}
+.app-tabs{display:flex;gap:4px;}
+.app-tab{flex:1;background:rgba(255,255,255,0.08);border-radius:5px;padding:4px;text-align:center;font-size:8px;color:var(--brown);}
+.app-tab.on{background:rgba(200,169,110,0.2);color:var(--gold);}
+.app-card{background:rgba(250,247,242,.95);border-radius:9px;padding:8px;margin-bottom:5px;}
+.app-card-title{font-size:10px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.app-card-sub{font-size:8px;color:var(--brown);}
+.app-chip{display:inline-block;background:rgba(200,169,110,0.25);color:var(--dark2);font-size:7px;padding:2px 5px;border-radius:4px;margin-top:4px;}
+
+.stats-bar{background:var(--dark2);padding:28px 5%;display:flex;justify-content:center;gap:60px;flex-wrap:wrap;border-bottom:1px solid rgba(200,169,110,0.15);}
+.stat{text-align:center;}
+.stat-num{font-family:'Playfair Display',serif;font-size:34px;color:var(--gold);}
+.stat-label{font-size:11px;color:var(--brown);margin-top:3px;letter-spacing:1px;text-transform:uppercase;}
+
+.section{padding:90px 7%;}
+.section-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,50px);color:var(--text);line-height:1.15;margin-bottom:18px;}
+.section-title em{color:var(--gold);font-style:italic;}
+.section-sub{font-size:16px;color:var(--brown);line-height:1.7;max-width:540px;}
+
+/* For-who */
+.for-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:50px;}
+.for-card{background:var(--dark2);padding:36px 28px;transition:background .3s;cursor:pointer;}
+.for-card:hover{background:var(--dark3);}
+.for-card:first-child{border-radius:22px 0 0 22px;}
+.for-card:last-child{border-radius:0 22px 22px 0;}
+.for-icon{font-size:38px;margin-bottom:18px;}
+.for-title{font-family:'Playfair Display',serif;font-size:21px;color:var(--cream);margin-bottom:10px;}
+.for-desc{font-size:14px;color:var(--brown);line-height:1.7;margin-bottom:20px;}
+.for-link{color:var(--gold);font-size:13px;text-decoration:none;cursor:pointer;}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:50px;}
+.step{position:relative;}
+.step-num{font-family:'Playfair Display',serif;font-size:68px;color:rgba(200,169,110,0.1);position:absolute;top:-16px;left:-8px;line-height:1;}
+.step-content{position:relative;padding-top:18px;}
+.step-title{font-family:'Playfair Display',serif;font-size:19px;color:var(--text);margin-bottom:8px;}
+.step-desc{font-size:14px;color:var(--brown);line-height:1.7;}
+
+/* Pain/Solution */
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px;}
+.pain-side-title{font-size:12px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;}
+.pain-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;}
+.pain-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px;}
+.pain-dot.bad{background:rgba(232,92,92,0.2);color:#E85C5C;}
+.pain-dot.good{background:rgba(58,125,68,0.2);color:#6BAF7A;}
+.pain-text{font-size:15px;color:#C4B89A;line-height:1.5;}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px;}
+.price-card{background:var(--cream2);border:1px solid var(--border);border-radius:18px;padding:32px 24px;position:relative;transition:all .3s;}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(44,36,22,.1);}
+.price-card.featured{background:var(--dark2);border-color:var(--gold);}
+.price-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--dark);font-size:11px;padding:3px 14px;border-radius:10px;white-space:nowrap;}
+.price-icon{font-size:30px;margin-bottom:14px;}
+.price-name{font-family:'Playfair Display',serif;font-size:21px;color:var(--text);margin-bottom:8px;}
+.price-card.featured .price-name{color:var(--cream);}
+.price-desc{font-size:13px;color:var(--brown);margin-bottom:20px;line-height:1.6;}
+.price-features{list-style:none;margin-bottom:28px;}
+.price-features li{font-size:13px;color:var(--brown);padding:6px 0;border-bottom:1px solid rgba(0,0,0,.05);display:flex;gap:8px;}
+.price-card.featured .price-features li{color:#C4B89A;border-color:rgba(255,255,255,.07);}
+.price-features li::before{content:'✓';color:var(--green);font-weight:bold;flex-shrink:0;}
+.price-cta{display:block;text-align:center;padding:12px;border-radius:12px;font-size:14px;text-decoration:none;border:1px solid var(--border);color:var(--text);cursor:pointer;background:none;width:100%;font-family:inherit;transition:all .2s;}
+.price-cta:hover{background:var(--dark);color:var(--cream);border-color:var(--dark);}
+.price-card.featured .price-cta{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+
+/* FAQ */
+.faq-list{margin-top:50px;max-width:700px;}
+.faq-item{border-bottom:1px solid var(--border);padding:22px 0;cursor:pointer;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:500;}
+.faq-arrow{color:var(--gold);font-size:20px;transition:transform .3s;flex-shrink:0;}
+.faq-item.open .faq-arrow{transform:rotate(45deg);}
+.faq-a{font-size:14px;color:var(--brown);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .4s,padding .3s;}
+.faq-item.open .faq-a{max-height:200px;padding-top:14px;}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--dark),var(--dark2));padding:90px 7%;text-align:center;}
+.cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,60px);color:var(--cream);margin-bottom:16px;}
+.cta-section h2 em{color:var(--gold);font-style:italic;}
+.cta-section p{color:var(--brown);font-size:16px;margin-bottom:44px;}
+.cta-grid{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+.cta-card{background:rgba(255,255,255,.05);border:1px solid rgba(200,169,110,.2);border-radius:18px;padding:28px 24px;max-width:240px;text-align:left;cursor:pointer;transition:all .3s;}
+.cta-card:hover{background:rgba(200,169,110,.1);border-color:var(--gold);transform:translateY(-4px);}
+.cta-card-icon{font-size:26px;margin-bottom:12px;}
+.cta-card-title{font-family:'Playfair Display',serif;color:var(--cream);font-size:17px;margin-bottom:6px;}
+.cta-card-desc{color:var(--brown);font-size:13px;line-height:1.6;margin-bottom:18px;}
+.cta-card-link{color:var(--gold);font-size:13px;}
+
+/* Footer */
+footer{background:var(--dark);padding:44px 7%;border-top:1px solid rgba(200,169,110,.15);}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--cream);letter-spacing:3px;}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;}
+.footer-links a{color:var(--brown);font-size:13px;text-decoration:none;transition:color .2s;cursor:pointer;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{color:#4A3C28;font-size:12px;margin-top:20px;text-align:center;}
+
+/* Rechtliche sections */
+.recht-section{display:none;padding:80px 7%;max-width:800px;margin:0 auto;}
+.recht-section.visible{display:block;}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.85);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--cream2);border-radius:22px;padding:36px;width:90%;max-width:420px;position:relative;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:6px;}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;color:var(--brown);cursor:pointer;}
+.modal-p{font-size:13px;color:var(--brown);margin-bottom:24px;}
+.m-inp{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:11px;background:var(--cream);font-family:inherit;font-size:14px;color:var(--text);outline:none;margin-bottom:12px;transition:border-color .2s;}
+.m-inp:focus{border-color:var(--gold);}
+.m-btn{width:100%;padding:13px;border-radius:13px;border:none;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;}
+.m-btn-gold{background:var(--gold);color:var(--dark);}
+.m-btn-dark{background:var(--dark);color:var(--cream);}
+.m-err{color:var(--red);font-size:12px;padding:8px 12px;background:#FFF0F0;border-radius:8px;margin-bottom:12px;display:none;}
+
+/* ══════════════════════════════════
+   VEREIN DASHBOARD
+══════════════════════════════════ */
+.dash-wrap{display:flex;min-height:100vh;}
+.sidebar{width:210px;background:var(--dark);display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sb-logo-wrap{padding:22px 16px 16px;border-bottom:1px solid rgba(200,169,110,.2);}
+.sb-logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--cream);letter-spacing:3px;}
+.sb-verein{font-size:11px;color:var(--brown);margin-top:4px;}
+.sb-nav{padding:12px 8px;flex:1;}
+.ni{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--brown);font-size:13px;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;font-family:inherit;transition:all .15s;}
+.ni:hover{background:rgba(255,255,255,.05);color:var(--cream);}
+.ni.active{background:rgba(200,169,110,.15);color:var(--gold);}
+.nb{margin-left:auto;background:var(--red);color:#fff;font-size:10px;border-radius:8px;padding:1px 6px;}
+.sb-foot{padding:12px;border-top:1px solid rgba(200,169,110,.15);}
+.sb-user{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.sb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--dark2),var(--dark3));display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid var(--gold);flex-shrink:0;}
+.sb-name{font-size:12px;color:var(--cream);}
+.sb-email{font-size:10px;color:var(--brown);}
+.btn-out{width:100%;padding:7px;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--brown);border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;}
+.btn-out:hover{border-color:var(--red);color:var(--red);}
+.dash-main{flex:1;overflow-x:hidden;}
+.dpage{display:none;padding:26px;}
+.dpage.active{display:block;}
+.pg-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);margin-bottom:2px;}
+.pg-sub{font-size:13px;color:var(--brown);margin-bottom:20px;}
+.dstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+.dstat{background:var(--cream2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.dstat-ico{font-size:22px;margin-bottom:6px;}
+.dstat-n{font-family:'Playfair Display',serif;font-size:26px;color:var(--text);}
+.dstat-l{font-size:11px;color:var(--brown);margin-top:2px;}
+.dcard{background:var(--cream2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;}
+.dcard-ttl{font-size:10px;color:var(--brown);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.dcard-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.dbtn-gold{background:var(--gold);color:var(--dark);border:none;padding:7px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;}
+.drow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0EBE0;}
+.drow:last-child{border:none;}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:500;}
+.b-grn{background:rgba(58,125,68,.12);color:var(--green);}
+.b-gld{background:rgba(200,169,110,.2);color:#8B6800;}
+.b-red{background:rgba(232,92,92,.12);color:var(--red);}
+.b-blue{background:rgba(91,155,213,.15);color:#185FA5;}
+.bew-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F0EBE0;}
+.bew-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--dark2),var(--dark3));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.bew-inf{flex:1;}
+.bew-name{font-size:13px;font-weight:500;}
+.bew-mail{font-size:11px;color:var(--brown);}
+.btn-sm{padding:6px 12px;font-size:11px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;font-family:inherit;color:var(--text);}
+/* Analyse tabs */
+.an-tabs{display:flex;gap:4px;background:#EDE8DE;border-radius:10px;padding:4px;margin-bottom:14px;}
+.an-tab{flex:1;padding:8px 6px;border-radius:7px;border:none;cursor:pointer;background:transparent;color:var(--brown);font-size:12px;font-family:inherit;transition:all .15s;}
+.an-tab.active{background:var(--cream2);color:var(--text);font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.an-sec{display:none;}
+.an-sec.active{display:block;}
+.prog{height:8px;background:#EDE8DE;border-radius:4px;overflow:hidden;margin-top:6px;}
+.prog-fill{height:100%;border-radius:4px;}
+/* Profil / forms */
+.d-inp{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--cream);font-family:inherit;font-size:13px;color:var(--text);outline:none;margin-bottom:10px;}
+.d-inp:focus{border-color:var(--gold);}
+.d-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+/* Login screen */
+.login-wrap{min-height:100vh;background:linear-gradient(160deg,var(--dark),var(--dark2) 60%,#3D3020);display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+.login-box{background:var(--cream2);border-radius:22px;padding:36px;width:100%;max-width:400px;}
+.login-logo{font-family:'Playfair Display',serif;font-size:26px;color:var(--dark);letter-spacing:3px;margin-bottom:4px;}
+.login-sub{font-size:13px;color:var(--brown);margin-bottom:24px;}
+.login-tabs{display:flex;gap:4px;background:#EDE8DE;border-radius:10px;padding:4px;margin-bottom:22px;}
+.login-tab{flex:1;padding:8px;text-align:center;border-radius:8px;font-size:13px;cursor:pointer;color:var(--brown);border:none;background:transparent;font-family:inherit;transition:all .2s;}
+.login-tab.active{background:var(--cream2);color:var(--text);font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.1);}
+/* Toast */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--dark);color:var(--cream);padding:11px 22px;border-radius:22px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+
+@media(max-width:768px){
+  .hero{flex-direction:column;text-align:center;padding:100px 5% 60px;}
+  .hero-btns{justify-content:center;}
+  .phone-frame{width:180px;}
+  .for-grid,.steps,.pricing-grid{grid-template-columns:1fr;}
+  .for-card:first-child,.for-card:last-child,.for-card{border-radius:18px;}
+  .stats-bar{gap:28px;}
+  .nav-links{display:none;}
+  .dstats{grid-template-columns:1fr 1fr;}
+  .sidebar{display:none;}
+  .pain-grid{grid-template-columns:1fr;}
+  .d-form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<div class="page active" id="page-partner">
+  <nav>
+    <div class="nav-logo">Civico</div>
+    <div class="nav-links">
+      <a onclick="window.location.href='index.html'" style="cursor:pointer">← Zurück</a>
+    </div>
+    
+  </nav>
+  <div style="padding:100px 7% 80px;max-width:1100px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:60px">
+      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Gemeinsam wirken</div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,64px);color:var(--text);margin-bottom:16px">Partner & <em style="color:var(--gold);font-style:italic">Sponsoring</em></h1>
+      <p style="font-size:17px;color:var(--brown);max-width:560px;margin:0 auto;line-height:1.7">Unterstütze Ehrenamt in deiner Region mit einem klaren, regionalen Sponsoring-Angebot. Sichtbar, glaubwürdig und ohne überladene Zusatzmodelle.</p>
+    </div>
+
+    <!-- Angebot -->
+    <div style="max-width:760px;margin:0 auto 60px">
+      <div style="background:var(--cream2);border:1px solid var(--border);border-radius:20px;padding:36px 28px">
+        <div style="font-family:'Playfair Display',serif;font-size:34px;color:var(--text);margin-bottom:12px">Unser Angebot für Partner & Sponsoring</div>
+        <div style="font-size:16px;color:var(--brown);line-height:1.8;margin-bottom:22px">
+          Civico bietet Unternehmen die Möglichkeit, lokales Ehrenamt sichtbar zu unterstützen – ohne große Kampagnen, ohne komplexe Zusatzpakete und mit einem klaren regionalen Bezug.
+        </div>
+        <ul style="list-style:none;margin-bottom:22px">
+          <li style="font-size:15px;color:var(--brown);padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;gap:10px"><span style="color:var(--green);font-weight:bold">✓</span> Sichtbarkeit auf Website und Plattform</li>
+          <li style="font-size:15px;color:var(--brown);padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;gap:10px"><span style="color:var(--green);font-weight:bold">✓</span> Dokumentierbares Engagement für Kommunikation und Berichte</li>
+          <li style="font-size:15px;color:var(--brown);padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;gap:10px"><span style="color:var(--green);font-weight:bold">✓</span> Unterstützungsmodell, das operativ schlank und verlässlich bleibt</li>
+          <li style="font-size:15px;color:var(--brown);padding:10px 0;display:flex;gap:10px"><span style="color:var(--green);font-weight:bold">✓</span> Engagement wird nachvollziehbar dokumentiert und kann für Kommunikation und Berichte genutzt werden</li>
+        </ul>
+        <div style="font-size:14px;color:var(--brown);line-height:1.8">
+          Wir konzentrieren uns bewusst auf ein klares Sponsoring-Angebot, das regional sichtbar ist, verlässlich läuft und ohne künstliche engagement sichtbar macht und für Kommunikation oder Berichte dokumentierbar bleibt.
+        </div>
+      </div>
+    </div>
+
+    <!-- Kontaktformular -->
+    <div style="background:linear-gradient(135deg,var(--dark),var(--dark2));border-radius:20px;padding:40px;max-width:600px;margin:0 auto" id="partner-form-wrap">
+      <div style="font-family:'Playfair Display',serif;font-size:26px;color:var(--cream);margin-bottom:6px">Interesse? Schreib uns.</div>
+      <div style="font-size:14px;color:var(--brown);margin-bottom:24px">Wir melden uns innerhalb von 24 Stunden zurück.</div>
+      <input class="m-inp" id="pf-name" placeholder="Ihr Name / Unternehmen" style="background:rgba(255,255,255,.08);border-color:rgba(200,169,110,.3);color:var(--cream)">
+      <input class="m-inp" type="email" id="pf-email" placeholder="Email" style="background:rgba(255,255,255,.08);border-color:rgba(200,169,110,.3);color:var(--cream)">
+      <textarea class="m-inp" id="pf-msg" rows="3" placeholder="Kurze Nachricht (optional)" style="background:rgba(255,255,255,.08);border-color:rgba(200,169,110,.3);color:var(--cream)"></textarea>
+      <div class="m-err" id="pf-err"></div>
+      <button class="m-btn m-btn-gold" onclick="sendPartnerAnfrage()" style="width:100%">Anfrage senden ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+
+
+<div id="recht-impressum" class="recht-section"><div style="max-width:820px;font-size:13px;color:var(--brown);line-height:1.8"><h1>Impressum</h1>
+<p>Angaben gemäß § 5 DDG</p>
+<p>Lucas Wimmer<br>Civico<br>Rheinstraße 26<br>64683 Einhausen</p>
+<p><strong>Vertreten durch:</strong><br>Lucas Wimmer</p>
+
+<script>
+const sb=supabase.createClient('https://fowlmllbyjkbedhisceo.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvd2xtbGxieWprYmVkaGlzY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTkzNjQsImV4cCI6MjA4OTQ5NTM2NH0.uNBcVHHfKg7C56iQhxfu9SJ1V1XCACsuiYvy6JfR6jw',{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:false}});
+
+function toast(msg,color){const el=document.getElementById('toast');el.textContent=msg;el.style.background=color||'#2C2416';el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+
+function openKontakt(){document.getElementById('partner-form-wrap').scrollIntoView({behavior:'smooth'});}
+
+async function sendPartnerAnfrage(){
+  const name=document.getElementById('pf-name').value.trim();
+  const email=document.getElementById('pf-email').value.trim();
+  const msg=document.getElementById('pf-msg').value.trim();
+  const errEl=document.getElementById('pf-err');
+  if(!name||!email){errEl.textContent='Bitte Name und Email eingeben.';errEl.style.display='block';return;}
+  errEl.style.display='none';
+
+  const eintrag={
+    typ:'partner',
+    betreff:'Partner & Sponsoring',
+    name,
+    email,
+    nachricht:msg,
+    zeitpunkt:new Date().toISOString(),
+    gelesen:false
+  };
+
+  try{
+    const inbox=JSON.parse(localStorage.getItem('civico_admin_inbox')||'[]');
+    inbox.unshift(eintrag);
+    localStorage.setItem('civico_admin_inbox', JSON.stringify(inbox));
+  }catch(e){}
+
+  await sb.from('anfragen').insert({typ:'partner',paket:'Partner & Sponsoring',name,email,nachricht:msg,gelesen:false}).catch(()=>{});
+
+  toast('✓ Anfrage wurde an das Admin-Portal übergeben und gespeichert.');
+  document.getElementById('pf-name').value='';
+  document.getElementById('pf-email').value='';
+  document.getElementById('pf-msg').value='';
+}
+
+async function openTerminModal(kontext){
+  const{data}=await sb.from('gespraechstermine').select('*').eq('gebucht',false).gte('datum',new Date().toISOString().split('T')[0]).order('datum').limit(6);
+  if(!data||!data.length){
+    window.location.href=`mailto:Lucas-wimmer@hotmail.de?subject=Civico Gespräch: ${kontext}`;
+    return;
+  }
+  const slot=data[0];
+  if(confirm(`Termin buchen:\n📅 ${new Date(slot.datum+'T00:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long'})} · ${slot.zeit} Uhr\n\nJetzt buchen?`)){
+    const name=prompt('Ihr Name:');const email=prompt('Ihre Email:');
+    if(!name||!email)return;
+    await sb.from('gespraechstermine').update({gebucht:true,gebucht_von_name:name,gebucht_von_email:email,kontext}).eq('id',slot.id);
+    window.location.href=`mailto:Lucas-wimmer@hotmail.de?subject=Civico Termin gebucht&body=Von: ${name} (${email})%0AKontext: ${kontext}`;
+    toast('✓ Termin gebucht!');
+  }
+}
+</script>
+</body>
+</html>
