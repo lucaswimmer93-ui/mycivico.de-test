@@ -257,11 +257,11 @@ footer{background:var(--dark);padding:44px 7%;border-top:1px solid rgba(200,169,
 <div class="toast" id="toast"></div>
 <div id="demo-banner" style="background:linear-gradient(90deg,#C8A96E,#E8C88E);padding:10px 20px;text-align:center;font-size:13px;color:var(--dark);font-weight:500">
   🎭 Demo-Ansicht – NABU Einhausen ·
-  <button onclick="window.location.href='index.html'" style="background:rgba(0,0,0,0.15);border:none;padding:4px 12px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;margin-left:8px">← Zurück zur Homepage</button>
+  <button onclick="window.location.href='/'" style="background:rgba(0,0,0,0.15);border:none;padding:4px 12px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;margin-left:8px">← Zurück zur Homepage</button>
 </div>
 <div class="page active" id="page-verein-dash">
   <div id="demo-banner" style="display:none;background:linear-gradient(90deg,#C8A96E,#E8C88E);padding:10px 20px;text-align:center;font-size:13px;color:var(--dark);font-weight:500">
-    🎭 Demo-Modus – keine echten Daten · <button onclick="window.location.href='index.html'" style="background:rgba(0,0,0,0.15);border:none;padding:4px 12px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;margin-left:8px">← Zurück zur Website</button>
+    🎭 Demo-Modus – keine echten Daten · <button onclick="window.location.href='/'" style="background:rgba(0,0,0,0.15);border:none;padding:4px 12px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;margin-left:8px">← Zurück zur Website</button>
   </div>
   <div class="dash-wrap">
     <aside class="sidebar">
@@ -840,7 +840,7 @@ function saveStelleForm(){
   renderDemoOverview();
   toast('✓ Demo: Stelle "'+titel+'" wurde zur Ansicht hinzugefügt (nicht gespeichert).');
 }
-function doLogout(){window.location.href='index.html';}
+function doLogout(){window.location.href='/';}
 function toggleAufwand(){}
 function deleteStelle(){toast('Demo – Löschen nicht möglich.','#8B7355');}
 function editStelle(){toast('Demo – Bearbeiten nicht möglich.','#8B7355');}
